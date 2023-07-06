@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -mFacvgroup-directories-first
+ls -pmFacvgroup-directories-first
