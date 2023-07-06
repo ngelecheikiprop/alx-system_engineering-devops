@@ -1,2 +1,2 @@
 #!/bin/bash
-ssh -t ssh.ascii-art.de
+telnet towel.blinkenlights.nl
