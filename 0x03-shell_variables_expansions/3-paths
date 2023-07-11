@@ -1,2 +1,2 @@
 #!/bin/bash
-ls $(which $PATH) | wc -l
+echo $(ls -d $PATH | wc -l)
