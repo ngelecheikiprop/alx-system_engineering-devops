@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#bash for testing how while can be used to print 1 to 10
+i="0"
+
+while [ $i -lt 4 ]
+do
+echo $i
+i=$[$i+1]
+done
