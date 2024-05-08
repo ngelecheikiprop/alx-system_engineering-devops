@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#script for testing using for loop in bash
+for i in [
