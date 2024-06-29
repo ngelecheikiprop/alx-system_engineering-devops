@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#configuration for ssh
+Host ubuntu
+	HostName 54.236.30.220
+	IdentityFile '~/.ssh/school'
+	passwordAuthentication no
