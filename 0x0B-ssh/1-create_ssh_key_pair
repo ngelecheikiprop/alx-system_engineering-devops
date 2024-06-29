@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-ssh-keygen -b 4096 -f school.pub -N betty
+#generate ssh key in file school and passpharse betty
+ssh-keygen -b 4096 -f school -N betty
