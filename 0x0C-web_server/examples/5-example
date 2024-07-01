@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+if [ 3 -ne 4 ];then
+	echo "thats true"
+fi
