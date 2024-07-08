@@ -18,5 +18,5 @@ backend myservers\
 	server server1 54.237.18.27:80 check\
 	server server2 34.232.66.181:80 check\
 "
-echo "$HAPROXY_CONFIG" > /etc/haproxy/haproxy.cfg
+echo "$HAPROXY_CONFIG" >> /etc/haproxy/haproxy.cfg
 systemctl restart haproxy
