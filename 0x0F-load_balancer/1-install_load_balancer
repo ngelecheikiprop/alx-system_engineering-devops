@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#bash script to configure my loadbalance to myservers
 sudo su
 apt -y update
 apt -y install haproxy
