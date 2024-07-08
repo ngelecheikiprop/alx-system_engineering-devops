@@ -6,16 +6,16 @@ systemctl enable haproxy
 systemctl start haproxy
 ufw allow 80
 HAPROXY_CONFIG="\
-frontend myfrontend
-	mode http
-	bind *:80
-	default_backend myservers
-
-backend myservers
-	mode http
-	balance roundrobin
-	server server1 54.237.18.27:80 check
-	server server2 34.232.66.181:80 check
+frontend myfrontend\
+	mode http\
+	bind *:80\
+	default_backend myservers\
+\
+backend myservers\
+	mode http\
+	balance roundrobin\
+	server server1 54.237.18.27:80 check\
+	server server2 34.232.66.181:80 check\
 "
 echo "$HAPROXY_CONFIG" > /etc/haproxy/haproxy.cfg
 systemctl restart haproxy
