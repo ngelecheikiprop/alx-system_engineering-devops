@@ -8,15 +8,15 @@ apt-get install -y haproxy=2.2.\*;
 ufw allow 80;
 HAPROXY_CONFIG="\
 frontend myfrontend
-	mode http
-	bind *:80
-	default_backend myservers
+\tmode http
+\tbind *:80
+\tdefault_backend myservers
 backend myservers
-	mode http
-	balance roundrobin
-	server server1 54.237.18.27:80 check
-	server server2 34.232.66.181:80 check\
+\tmode http
+\tbalance roundrobin
+\tserver server1 54.237.18.27:80 check
+\tserver server2 34.232.66.181:80 check\
 ";
-echo "$HAPROXY_CONFIG" >> /etc/haproxy/haproxy.cfg;
+echo -e "$HAPROXY_CONFIG" >> /etc/haproxy/haproxy.cfg;
 systemctl enable haproxy;
 systemctl start haproxy;
