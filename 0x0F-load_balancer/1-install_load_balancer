@@ -2,7 +2,9 @@
 #bash script to configure my loadbalance to myservers
 sudo su
 apt -y update
-apt -y install haproxy
+apt-get -y install --no-install-recommends software-properties-common
+add-apt-repository ppa:vbernat/haproxy-2.2
+apt-get -y install haproxy=2.2.\*
 systemctl enable haproxy
 systemctl start haproxy
 ufw allow 80
