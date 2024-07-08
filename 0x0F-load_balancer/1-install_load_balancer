@@ -17,6 +17,6 @@ backend myservers
 \tserver server1 54.237.18.27:80 check
 \tserver server2 34.232.66.181:80 check\
 ";
-echo -e "$HAPROXY_CONFIG" >> /etc/haproxy/haproxy.cfg;
+echo -e "$HAPROXY_CONFIG" > /etc/haproxy/haproxy.cfg;
 systemctl enable haproxy;
 systemctl start haproxy;
