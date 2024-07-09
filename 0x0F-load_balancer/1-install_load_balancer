@@ -21,4 +21,4 @@ echo -e "$HAPROXY_CONFIG" > /etc/haproxy/haproxy.cfg;
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
 systemctl enable haproxy;
-systemctl start haproxy;
+systemctl restart haproxy;
