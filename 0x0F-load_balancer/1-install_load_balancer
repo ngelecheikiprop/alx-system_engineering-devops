@@ -1,28 +1,24 @@
 #!/usr/bin/env bash
-# Create a script to install and configure HAProxy on lb-01 server
-# Configure HAProxy to send traffic to web-01 and web-02 servers
-# Distribute requests using a roundrobin algorithm
-# Make sure that HAProxy can be managed via an init script
-# Install and configure HAproxy on my lb-01 server.
-sudo apt-get -y update
-apt-get -y install haproxy
-
-# edit config file
-server_config=\
-"
-frontend  whistler-frontend
-        bind *:80
-        mode http
-        default_backend whistler-backend
-backend whistler-backend
-        balance roundrobin
-        server web-01 54.237.18.27:80 check
-        server web-02 34.232.66.181:80 check
-"
-echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
-
-# enable haproxy to be started by init script
-
+#bash script to configure my loadbalance to myservers
+sudo su;
+apt-get install -y --no-install-recommends software-properties-common;
+add-apt-repository -y ppa:vbernat/haproxy-2.2;
+apt-get update;
+apt-get install -y haproxy=2.2.\*;
+ufw allow 80;
+HAPROXY_CONFIG="\
+frontend myfrontend
+\tmode http
+\tbind *:80
+\tdefault_backend myservers
+backend myservers
+\tmode http
+\tbalance roundrobin
+\tserver server1 54.237.18.27:80 check
+\tserver server2 34.232.66.181:80 check\
+";
+echo -e "$HAPROXY_CONFIG" > /etc/haproxy/haproxy.cfg;
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
-sudo service haproxy restart
+systemctl enable haproxy;
+systemctl start haproxy;
