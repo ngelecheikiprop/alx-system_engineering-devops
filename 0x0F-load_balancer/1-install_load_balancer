@@ -1,92 +1,28 @@
 #!/usr/bin/env bash
-#bash script to configure my loadbalance to myservers
-sudo su;
-apt-get install -y --no-install-recommends software-properties-common;
-add-apt-repository -y ppa:vbernat/haproxy-2.2;
-apt-get update;
-apt-get install -y haproxy=2.2.\*;
-ufw allow 80;
-HAPROXY_CONFIG="\
-frontend myfrontend
-\tmode http
-\tbind *:80
-\tdefault_backend myservers
-backend myservers
-\tmode http
-\tbalance roundrobin
-\tserver server1 54.237.18.27:80 check
-\tserver server2 34.232.66.181:80 check\
-";
-echo -e "$HAPROXY_CONFIG" > /etc/haproxy/haproxy.cfg;
-systemctl enable haproxy;
-systemctl start haproxy;
+# Create a script to install and configure HAProxy on lb-01 server
+# Configure HAProxy to send traffic to web-01 and web-02 servers
+# Distribute requests using a roundrobin algorithm
+# Make sure that HAProxy can be managed via an init script
+# Install and configure HAproxy on my lb-01 server.
+sudo apt-get -y update
+apt-get -y install haproxy
 
-SCRIPT="\
-#!/bin/sh
-### BEGIN INIT INFO
-# Provides:          haproxy
-# Required-Start:    $network $remote_fs
-# Required-Stop:     $network $remote_fs
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: HAProxy
-# Description:       HAProxy load balancer
-### END INIT INFO
-
-DAEMON=/usr/sbin/haproxy
-CONFIG=/etc/haproxy/haproxy.cfg
-PIDFILE=/var/run/haproxy.pid
-LOCKFILE=/var/lock/subsys/haproxy
-
-start() {
-    echo "Starting HAProxy..."
-    $DAEMON -f $CONFIG -D -p $PIDFILE
-    RETVAL=$?
-    [ $RETVAL -eq 0 ] && touch $LOCKFILE
-    echo
-}
-
-stop() {
-    echo "Stopping HAProxy..."
-    kill `cat $PIDFILE`
-    RETVAL=$?
-    [ $RETVAL -eq 0 ] && rm -f $LOCKFILE $PIDFILE
-    echo
-}
-
-restart() {
-    stop
-    start
-}
-
-status() {
-    if [ -e $PIDFILE ]; then
-        echo "HAProxy is running with PID `cat $PIDFILE`"
-    else
-        echo "HAProxy is not running"
-    fi
-}
-
-case "$1" in
-    start)
-        start
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        restart
-        ;;
-    status)
-        status
-        ;;
-    *)
-        echo "Usage: $0 {start|stop|restart|status}"
-        exit 1
-esac
-
-exit 0\
+# edit config file
+server_config=\
 "
-echo -e "$SCRIPT" > /etc/init.d/haproxy
-sudo chmod +x /etc/init.d/haproxy
-sudo update-rc.d haproxy defaults
+frontend  whistler-frontend
+        bind *:80
+        mode http
+        default_backend whistler-backend
+backend whistler-backend
+        balance roundrobin
+        server web-01 54.237.18.27:80 check
+        server web-02 34.232.66.181:80 check
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+# enable haproxy to be started by init script
+
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+sudo service haproxy restart
