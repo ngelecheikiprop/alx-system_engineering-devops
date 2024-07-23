@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-sudo su -c "whoami" "$1"
+if id "$1" &>/dev/null; then
+	sudo su -c "whoami" "$1"
+fi
