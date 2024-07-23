@@ -1,5 +1,4 @@
 #!/usr/bin/bash
-
 # Update Nginx configuration to listen on port 8080 and run as nginx user
 NGINX_CONF="/etc/nginx/nginx.conf"
 
