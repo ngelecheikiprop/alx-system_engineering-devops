@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+# Update Nginx configuration to listen on port 8080 and run as nginx user
+NGINX_CONF="/etc/nginx/nginx.conf"
+
+# Backup the original configuration file
+cp $NGINX_CONF "${NGINX_CONF}.bak"
+
+# Update the user and port in the configuration file
+sed -i 's/user\s*root;/user nginx;/g' $NGINX_CONF
+sed -i 's/listen\s*80;/listen 8080;/g' $NGINX_CONF
+
+# Ensure the nginx user exists
+if ! id -u nginx > /dev/null 2>&1; then
+    echo "Creating nginx user"
+    useradd -r nginx
+fi
+
+# Change ownership of relevant directories
+chown -R nginx:nginx /var/cache/nginx /var/log/nginx
+
+# Start Nginx as the nginx user
+nginx -g 'daemon off;'
