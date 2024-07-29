@@ -10,10 +10,10 @@ if __name__ == "__main__":
     users = r.json()
     for user in users:
         user_id = user.get('id')
-        url_user = f'https://jsonplaceholder.typicode.com/users/{user_id}'
-        user_name = requests.get(url_user).json().get('username')
-        url_todos = f'https://jsonplaceholder.typicode.com/users\
-                    /{user_id}/todos'
+        user_name = user.get('username')
+        url_todos = (
+                f'https://jsonplaceholder.typicode.com/users/{user_id}/todos'
+                )
         r = requests.get(url_todos)
         user_tasks = []
         for item in r.json():
