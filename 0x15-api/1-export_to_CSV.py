@@ -15,7 +15,7 @@ if __name__ == "__main__":
     completed_titles = []
     rows = []
     for item in r.json():
-        row = ["2", name, item.get('completed'), item.get('title')]
+        row = [user_id, name, item.get('completed'), item.get('title')]
         rows.append(row)
     with open(f'{user_id}.csv', 'w', newline='') as file:
         writer = csv.writer(
