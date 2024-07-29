@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 'print as expected in task 0'
 
-if __name__=="__main__":
+if __name__ == "__main__":
     import requests
     import sys
     import json
@@ -12,7 +12,10 @@ if __name__=="__main__":
     r = requests.get(url_todos)
     user_tasks = []
     for item in r.json():
-        mydict = {"task":item.get('title'),"completed": item.get('completed'), "username":name}
+        mydict = {
+            "task": item.get('title'),
+            "completed": item.get('completed'),
+            "username": name}
         user_tasks.append(mydict)
     user_data = {user_id: user_tasks}
     with open(f'{user_id}.json', 'w', encoding='utf-8') as file:
