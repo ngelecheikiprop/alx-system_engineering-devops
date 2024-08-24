@@ -1,0 +1,12 @@
+server {
+	listen 80;
+	server_name 54.237.18.27;
+	
+	location / {
+		proxy_pass http://localhost:5003/2-hbnb;
+	}
+	location /static/ {
+		alias /home/ubuntu/AirBnB_clone_v4/web_dynamic/static/;
+	}	
+}
+
